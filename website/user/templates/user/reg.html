@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>{{ form.first_name.errors }}</div>
+        <span>First name: </span>{{ form.first_name }}<br>
+        <div>{{ form.last_name.errors }}</div>
+        <span>Last name: </span>{{ form.last_name }}<br>
+        <div>{{ form.email.errors }}</div>
+        <span>Email: </span>{{ form.email }}<br>
+        <div>{{ form.password.errors }}</div>
+        <span>Password: </span>{{ form.password }}<br>
+        <div>{{ form.password2.errors }}</div>
+        <span>Repeat password: {{ form.password2 }}</span>
+        <div>{{ form.avatar.errors }}</div>
+        <span>Avatar: </span>{{ form.avatar }}<br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
