@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+    <div>{{ user.first_name }}</div>
+    <div>{{ user.last_name }}</div>
+    <div>{{ user.email }}</div>
+    <div><img style="height: 200px; width: 200px" src="../../../../media/{{ user.avatar }}"></div>
+
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+</body>
+</html>

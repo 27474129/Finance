@@ -7,6 +7,7 @@ from user.models import User
 
 
 class CreateUserForm(forms.ModelForm):
+    # TODO: Добавить валидацию полей
     password2 = forms.CharField(max_length=255, widget=forms.PasswordInput)
     class Meta:
         model = User
@@ -29,3 +30,7 @@ class CreateUserForm(forms.ModelForm):
 class AuthUserForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class UserProfileCommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea)
