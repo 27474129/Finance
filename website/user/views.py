@@ -4,10 +4,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LogoutView
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from user.forms import CreateUserForm, AuthUserForm, UserProfileCommentForm
-from user.models import User
+from user.models import User, UserProfileComment
 from user.services import Auth
+from user.permissions import IsAuthenticated
 from base.base import BaseFormView
 
 
@@ -55,17 +58,37 @@ class UserProfileView(BaseFormView):
 
     def post(self, request, user_id, *args, **kwargs):
         # TODO: Добавить создание комментариев к профилю
+        UserProfileComment.create_user_profile_comment(
+            user_id, (Auth().decode_token(request.session['token']))['uid'],
+            comment=request.POST['comment']
+        )
         return super().post(request, user_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = User.get_user(self.uid)
+        context['comments'] = \
+            UserProfileComment.get_user_profile_comments(self.uid)
+        context['base_dir'] = reverse('base_user')
         return context
 
     def get_success_url(self):
         return self.request.path
 
 
+class RespectUserProfileAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, *args, **kwargs):
+        # TODO Дописать добавление респектов
+        return Response({'respect': True})
+
+
+def user(request):
+    return HttpResponseRedirect(reverse_lazy('root'))
+
+
 class RootView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponse('root')
+        from website.settings import BASE_API_URL
+        return HttpResponse(f'{BASE_API_URL}respect_user_profile/')

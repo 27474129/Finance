@@ -26,3 +26,19 @@ class UserProfileComment(models.Model):
         User, on_delete=models.CASCADE, related_name='by_user'
     )
     comment = models.TextField()
+
+    @classmethod
+    def create_user_profile_comment(
+        cls, to_user: int, by_user: int, comment: str
+    ):
+        UserProfileComment.objects.create(
+            to_user=User.objects.get(pk=to_user),
+            by_user=User.objects.get(pk=by_user),
+            comment=comment
+        )
+
+    @classmethod
+    def get_user_profile_comments(cls, uid: int):
+        return UserProfileComment.objects.filter(to_user_id=uid)
+
+# TODO: Сделать модель, хранящую респекты к профайлам юзера

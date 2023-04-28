@@ -129,3 +129,7 @@ MEDIA_URL = '/media/'
 # JWT
 JWT_SECRET = 'as9erdfgfd9hg3e59vsdfogvdfk'
 JWT_ALGORITHM = 'HS256'
+
+BASE_API_URL = 'api/'
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
